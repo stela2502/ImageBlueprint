@@ -28,6 +28,11 @@ From: ubuntu:22.04
     Description: Apptainer image for bioinformatics with Python, R, and Jupyter
 
 %post
+    # do not ask any question while installing the packages
+    export DEBIAN_FRONTEND=noninteractive
+    # do not use my home folder to install python packages - like ever!
+    export PYTHONNOUSERSITE="true"
+
     # Update and install basic dependencies
     apt-get update && apt-get install -y \
         python3 \
@@ -61,6 +66,7 @@ From: ubuntu:22.04
     # Set environment variables
     export LC_ALL=C.UTF-8
     export LANG=C.UTF-8
+    export PYTHONNOUSERSITE="true"
 
 %runscript
     # This will be executed when the container runs
@@ -87,7 +93,7 @@ With your definition file ready, you can now build the Apptainer image. There ar
 1. **Build a Compressed Image (.sif):**
 
     ```sh
-    sudo apptainer build Bioinformatics.sif Bioinformatics.def
+    sudo apptainer build Bioinformatics_v1.0.sif Bioinformatics.def
     ```
 
    This command creates a compressed, immutable image file (`Bioinformatics.sif`).
@@ -141,3 +147,7 @@ Copy and paste this URL into your web browser to start working with your bioinfo
 ## **Conclusion**
 
 Apptainer provides a robust and secure environment for bioinformatics workflows, ensuring that all dependencies and tools are encapsulated within a container. This tutorial has walked you through creating an Apptainer image tailored for Python and R-based bioinformatics tasks, including setting up Jupyter Notebook for interactive analysis. With this setup, you can maintain reproducibility and portability across different computing environments, making your bioinformatics research more efficient and reliable.
+
+## Next - make this reproducible, too
+
+For more information, check out the [Automation Guide](./AUTOMATION.md).

@@ -1,0 +1,52 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%labels
+    Author: Your Name
+    Version: 1.0
+    Description: Apptainer image for bioinformatics with Python, R, and Jupyter
+
+%post
+    # do not ask any question while installing the packages
+    export DEBIAN_FRONTEND=noninteractive
+    # do not use my home folder to install python packages - like ever!
+    export PYTHONNOUSERSITE="true"
+    # Update and install basic dependencies
+    apt-get update && apt-get install -y \
+        python3 \
+        python3-pip \
+        r-base \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        libxml2-dev \
+        pandoc \
+        git \
+        wget
+
+    # Install Python packages
+    pip3 install --upgrade pip
+    pip3 install \
+        jupyter \
+        notebook \
+        numpy \
+        pandas \
+        matplotlib \
+        seaborn
+
+    # Install R packages
+    R -e "install.packages(c('IRkernel', 'ggplot2', 'dplyr', 'tidyr', 'biocManager'), repos='https://cloud.r-project.org/')"
+    R -e "IRkernel::installspec()"
+
+    # Clean up
+    apt-get clean
+
+%environment
+    # Set environment variables
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+    export PYTHONNOUSERSITE="true"
+    
+%runscript
+    # This will be executed when the container runs
+    jupyter notebook --ip=0.0.0.0 --no-browser --allow-root
+

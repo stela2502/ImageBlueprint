@@ -1,0 +1,8 @@
+test*
+Bioinformatics/
+.ipynb_checkpoints
+*.swp
+*.RData
+*.sif
+*.ipynb
+build*
