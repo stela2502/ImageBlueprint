@@ -66,5 +66,11 @@ clean:
 
 Before you create your own images please change the SANDBOX_DIR variable in your Makefile!
 
+I assume you already use our shared modules on COSMOS. If not you can add the necessary line to your ~/.bash_profile like that (on COSMOS):
+
+```bash
+echo 'module use /scale/gr01/shared/common/modules' >> ~/.bash_profile
+```
+
 I hope this helps you as much as it hepls me ;-)
 
