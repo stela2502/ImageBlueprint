@@ -52,5 +52,4 @@ family("images")
 --
 EOF
 
-echo "Module file created at: $MODULE_FILE"
 
