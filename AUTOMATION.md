@@ -55,8 +55,8 @@ While working with this image on your dev-platform it is helpful to have scripts
 
 I am using a run.sh and shell.sh named by the apptiner functions they use:
 
-	1. [shell.sh](./image/shell.sh)
-	2. [run.sh](./image/run.sh)
+1. 'shell' the image [shell.sh](./image/shell.sh)
+2. 'run' the image [run.sh](./image/run.sh)
 
 These scripts use bash and are able to detect the path they are called from. Very useful if you start your image from your data directory...
 
