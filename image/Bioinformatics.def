@@ -31,7 +31,11 @@ From: ubuntu:22.04
         numpy \
         pandas \
         matplotlib \
-        seaborn
+        seaborn \
+        papermill
+
+    # Papermill allows for your notbooks to be processed as a script:
+    # papermill <input.ipynb> <output.ipynb> [-p <variable_name1> <value1> ... -p <variable_nameN> <valueN>]
 
     # Install R packages
     R -e "install.packages(c('IRkernel', 'ggplot2', 'dplyr', 'tidyr', 'biocManager'), repos='https://cloud.r-project.org/')"
@@ -48,5 +52,5 @@ From: ubuntu:22.04
     
 %runscript
     # This will be executed when the container runs
-    jupyter notebook --ip=0.0.0.0 --no-browser --allow-root
+    jupyter lab --ip=0.0.0.0 --no-browser --allow-root
 
