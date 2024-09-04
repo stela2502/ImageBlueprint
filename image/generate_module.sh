@@ -19,15 +19,15 @@ mkdir -p "$(dirname "$MODULE_FILE")"
 
 # Create the module file
 cat <<EOF 
-help([[This module sets the PATH variable for anaconda3/2019.10
-       (i.e. python/3.7.3) ]])
+help([[This module is an example Singularity Image prowiding  
+       a 'naked' Python Jupyter Lab interface to both Python and R ]])
 
 local version = "$VERSION"
 local base = pathJoin("$PATH_ARG")
 
 
 -- this happens at load
-execute{cmd="singularity run -B/scale,/sw ".. base.. "/".. version.."/${IMAGE_NAME}_v".. version ..".sif",modeA={"load"}}
+execute{cmd="singularity run -B/scale,/sw ".. base.. "/${IMAGE_NAME}_v".. version ..".sif",modeA={"load"}}
 
 
 -- this happens at unload
