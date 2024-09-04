@@ -1,19 +1,19 @@
 # Deploying the singularity image on COSMOS
 
-COSMOS uses the module system to load software. It would make sense if you would use the module system to deploy your signuarity images.
-This way we can share our images and therby hopefully reduce the amount of work each of us need to invest.
+COSMOS uses the module system to manage and load software, making it an ideal platform for deploying Singularity images. By leveraging the module system, we can share our images more effectively, reducing the workload for everyone involved.
 
-I have used ChatGPT for the creation of most of this tutorial and also for the next script:
+For most of this tutorial, I’ve used ChatGPT to assist in creating the content, including the script below:
 
 [generate_module.sh](generate_module.sh).
 
-This script takes the deploy path, the version of the package and the name of the tool as options:
+This script generates the necessary module file based on the deployment path, version, and tool name:
 
 ```bash
 ./generate_module.sh <deploy path> 1.0 Bioinformatics
 ```
 
-All of this information is known to the Makefile. So the best would be to call this script from within the makefile:
+Since all relevant information is centralized in the ``Makefile``, it is best to manage and maintain this information there to ensure consistency and ease of updates.
+
 
 ```text
 # Variables
@@ -21,10 +21,14 @@ VERSION := 1.0
 IMAGE_NAME := Bioinformatics_v$(VERSION).sif
 SANDBOX_DIR := Bioinformatics
 DEFINITION_FILE := Bioinformatics.def
-# assuming you mount COSMOS shared folders in $(HOME)/sens05_shared like me ;-)
+
+# Assuming COSMOS shared folders are mounted in $(HOME)/sens05_shared on the development computer
+# Paths on the development computer where the image will be deployed
 DEPLOY_DIR := $(HOME)/sens05_shared/common/software/$(SANDBOX_DIR)/$(VERSION)
-SERVER_DIR := /scale/gr01/shared/common/software/$(SANDBOX_DIR)/$(VERSION)
 MODULE_FILE := $(HOME)/sens05_shared/common/modules/$(SANDBOX_DIR)/$(VERSION).lua
+
+# Path on COSMOS where the image will be stored
+SERVER_DIR := /scale/gr01/shared/common/software/$(SANDBOX_DIR)/$(VERSION)
 
 # Phony targets are not actual files, but represent actions
 .PHONY: all restart build deploy clean
@@ -64,15 +68,14 @@ clean:
 	rm -f $(IMAGE_NAME)
 ```
 
-# Finish
+# Final Steps
 
-Before you create your own images please change the SANDBOX_DIR variable in your Makefile!
+Before creating your own images, be sure to update the ``SANDBOX_DIR`` variable in your ``Makefile`` to match your specific project.
 
-I assume you already use our shared modules on COSMOS. If not you can add the necessary line to your ~/.bash_profile like that (on COSMOS):
+If you’re not already using the shared modules on COSMOS, you can add the necessary line to your ``~/.bash_profile`` like this:
 
 ```bash
 echo 'module use /scale/gr01/shared/common/modules' >> ~/.bash_profile
 ```
 
-I hope this helps you as much as it hepls me ;-)
-
+I hope this guide is as helpful for you as it has been for me! :-)

@@ -3,10 +3,14 @@ VERSION := 1.0
 IMAGE_NAME := Bioinformatics_v$(VERSION).sif
 SANDBOX_DIR := Bioinformatics
 DEFINITION_FILE := Bioinformatics.def
-# assuming you mount COSMOS shared folders in $(HOME)/sens05_shared like me ;-)
+
+# Assuming COSMOS shared folders are mounted in $(HOME)/sens05_shared on the development computer
+# Paths on the development computer where the image will be deployed
 DEPLOY_DIR := $(HOME)/sens05_shared/common/software/$(SANDBOX_DIR)/$(VERSION)
-SERVER_DIR := /scale/gr01/shared/common/software/$(SANDBOX_DIR)/$(VERSION)
 MODULE_FILE := $(HOME)/sens05_shared/common/modules/$(SANDBOX_DIR)/$(VERSION).lua
+
+# Path on COSMOS where the image will be stored
+SERVER_DIR := /scale/gr01/shared/common/software/$(SANDBOX_DIR)/$(VERSION)
 
 # Phony targets are not actual files, but represent actions
 .PHONY: all restart build deploy clean
@@ -34,6 +38,7 @@ deploy:
 	@echo "Deploying $(IMAGE_NAME) to $(DEPLOY_DIR)..."
 	@mkdir -p $(DEPLOY_DIR)
 	rsync -avh --no-perms --no-owner --no-group --progress $(IMAGE_NAME) $(DEPLOY_DIR)
+	@mkdir -p $(dir $(MODULE_FILE))
 	@if [ ! -f $(MODULE_FILE) ]; then \
 		$(CURDIR)/generate_module.sh $(SERVER_DIR) $(VERSION) $(SANDBOX_DIR) > $(MODULE_FILE);\
 	fi

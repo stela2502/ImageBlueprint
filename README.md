@@ -139,15 +139,12 @@ This will start a Jupyter Notebook server, accessible via your web browser. The 
 When you run the container, Jupyter Notebook will output a URL containing a token, something like:
 
 ```plaintext
-http://localhost:8888/?token=<token>
+http://<server name>:8888/?token=<token>
 ```
 
 Copy and paste this URL into your web browser to start working with your bioinformatics notebooks.
 
-## **Conclusion**
 
-Apptainer provides a robust and secure environment for bioinformatics workflows, ensuring that all dependencies and tools are encapsulated within a container. This tutorial has walked you through creating an Apptainer image tailored for Python and R-based bioinformatics tasks, including setting up Jupyter Notebook for interactive analysis. With this setup, you can maintain reproducibility and portability across different computing environments, making your bioinformatics research more efficient and reliable.
-
-## Next - make this reproducible, too
+## Next - Automate the Image Creation
 
 For more information, check out the [Automation Guide](./AUTOMATION.md).
