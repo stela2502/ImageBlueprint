@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SCRIPT=$(readlink -f $0)
+IMAGE_PATH=`dirname $SCRIPT`
+
 # Ensure a directory name argument is provided
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <new_directory_name>"
@@ -20,11 +23,11 @@ mkdir -p "$NEW_DIR"
 echo "Created directory: $NEW_DIR"
 
 # Copy specific files from the 'image' folder to the new directory
-cp image/run.sh "$NEW_DIR/"
-cp image/shell.sh "$NEW_DIR/"
-cp image/Bioinformatics.def "$NEW_DIR/${NEW_NAME}.def"
-cp image/generate_module.sh "$NEW_DIR/"
-cp image/Makefile "$NEW_DIR/"
+cp $IMAGE_PATH/image/run.sh "$NEW_DIR/"
+cp $IMAGE_PATH/image/shell.sh "$NEW_DIR/"
+cp $IMAGE_PATH/image/Bioinformatics.def "$NEW_DIR/${NEW_NAME}.def"
+cp $IMAGE_PATH/image/generate_module.sh "$NEW_DIR/"
+cp $IMAGE_PATH/image/Makefile "$NEW_DIR/"
 echo "Copied selected files to '$NEW_DIR'"
 
 # Update Makefile
