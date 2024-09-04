@@ -1,9 +1,11 @@
 # Variables
 VERSION := 1.0
-IMAGE_NAME := Bioinformatics_v${VERSION}.sif
+IMAGE_NAME := Bioinformatics_v$(VERSION).sif
 SANDBOX_DIR := Bioinformatics
 DEFINITION_FILE := Bioinformatics.def
-DEPLOY_DIR := /path/to/deploy/directory
+# assuming you mount COSMOS shared folders in $(HOME)/sens05_shared like me ;-)
+DEPLOY_DIR := $(HOME)/sens05_shared/common/software/$(SANDBOX_DIR)/$(VERSION)
+MODULE_FILE := $(HOME)/sens05_shared/common/modules/$(SANDBOX_DIR)/$(VERSION).lua
 
 # Phony targets are not actual files, but represent actions
 .PHONY: all restart build deploy clean
@@ -29,12 +31,14 @@ build:
 # Deploy the image by copying it to the deployment directory
 deploy:
 	@echo "Deploying $(IMAGE_NAME) to $(DEPLOY_DIR)..."
-	cp $(IMAGE_NAME) $(DEPLOY_DIR)
+	rsync -avh --progress $(IMAGE_NAME) $(DEPLOY_DIR)
+	if [ ! -f $(MODULE_FILE) ]; then \
+		./generate_module $(DEPLOY_DIR) $(VERSION) $(SANDBOX_DIR) > $(MODULE_FILE) \
+	fi
 
 # Clean up the sandbox and image
 clean:
 	@echo "Cleaning up..."
 	rm -rf $(SANDBOX_DIR)
 	rm -f $(IMAGE_NAME)
-
 

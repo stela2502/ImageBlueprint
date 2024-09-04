@@ -49,7 +49,7 @@ build:
 # Deploy the image by copying it to the deployment directory
 deploy:
 	@echo "Deploying $(IMAGE_NAME) to $(DEPLOY_DIR)..."
-	cp $(IMAGE_NAME) $(DEPLOY_DIR)
+	rsync -avh --progress $(IMAGE_NAME) $(DEPLOY_DIR)
 	if [ ! -f $(MODULE_FILE) ]; then \
 		./generate_module $(DEPLOY_DIR) $(VERSION) $(SANDBOX_DIR) > $(MODULE_FILE) \
 	fi
