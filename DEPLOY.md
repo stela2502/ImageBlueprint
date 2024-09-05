@@ -2,17 +2,14 @@
 
 COSMOS uses the module system to manage and load software, making it an ideal platform for deploying Singularity images. By leveraging the module system, we can share our images more effectively, reducing the workload for everyone involved.
 
-For most of this tutorial, I’ve used ChatGPT to assist in creating the content, including the script below:
-
-[generate_module.sh](generate_module.sh).
-
-This script generates the necessary module file based on the deployment path, version, and tool name:
+The [generate_module.sh](generate_module.sh) script generates the necessary module file based on the deployment path, version, and tool name:
 
 ```bash
 ./generate_module.sh <deploy path> 1.0 Bioinformatics
 ```
 
 Since all relevant information is centralized in the ``Makefile``, it is best to manage and maintain this information there to ensure consistency and ease of updates.
+Focus on the ``DEPLOY_DIR``, ``MODULE_FILE`` and ``SERVER_DIR`` variables and also mention if ``deploy`` section in the ``Makefile``:
 
 
 ```text
@@ -68,9 +65,18 @@ clean:
 	rm -f $(IMAGE_NAME)
 ```
 
+## The deploy target in detail:
+
+    1. It starts by printing a message saying the image is being deployed.
+    2. It creates the deployment directory if it doesn’t exist.
+    3. It uses rsync to copy the image to the deployment directory.
+    4. It ensures the directory for the module file exists.
+    5. If the module file doesn't already exist, it generates one using the generate_module.sh script.
+
+
 # Final Steps
 
-Before creating your own images, be sure to update the ``SANDBOX_DIR`` variable in your ``Makefile`` to match your specific project.
+Before creating your own images, be sure to update the ``DEPLOY_DIR``, ``MODULE_FILE``and ``SERVER_DIR`` variable in your ``Makefile`` to match your specific project.
 
 If you’re not already using the shared modules on COSMOS, you can add the necessary line to your ``~/.bash_profile`` like this:
 
@@ -79,3 +85,16 @@ echo 'module use /scale/gr01/shared/common/modules' >> ~/.bash_profile
 ```
 
 I hope this guide is as helpful for you as it has been for me! :-)
+
+# Further improvements
+
+In a normal HPC setting the different users do not have sudo right and therfore can not build an Apptainer image.
+[The ImageSmith](git@github.com:stela2502/ImageSmith.git) incorporates the described logics into a Apptainer image which can be used by a not privileged user to build Apptainber images oin an HPC environment.
+
+The core of it's functionallity is that the ImgeSmith is able to re-create the image development setting described here using the command 
+
+```bash
+create_new_image_builder.sh <path-to>/<new-image-name>
+```
+
+This Bash script automates the setup of a new project directory for building Apptainer/Singularity images. It creates a directory, copies essential template files (e.g., shell scripts, definition files, and a Makefile), and customizes them based on the provided directory name. The script ensures that no existing directory with the same name exists and provides helpful usage information if the correct arguments aren't supplied.

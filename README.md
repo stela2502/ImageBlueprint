@@ -20,61 +20,80 @@ Create a file named `Bioinformatics.def`:
 
 ```plaintext
 Bootstrap: docker
-From: ubuntu:22.04
-
-%labels
-    Author: Your Name
-    Version: 1.0
-    Description: Apptainer image for bioinformatics with Python, R, and Jupyter
+From: alpine:latest
 
 %post
-    # do not ask any question while installing the packages
-    export DEBIAN_FRONTEND=noninteractive
-    # do not use my home folder to install python packages - like ever!
-    export PYTHONNOUSERSITE="true"
-
-    # Update and install basic dependencies
-    apt-get update && apt-get install -y \
+    # Update and install essential packages
+    apk update && apk add --no-cache \
+        bash \
+        build-base \
+        curl \
+        openblas-dev \
+        gfortran \
         python3 \
-        python3-pip \
-        r-base \
-        libcurl4-openssl-dev \
-        libssl-dev \
+        py3-pip \
+        python3-dev \
+        py3-setuptools \
+        py3-wheel \
+        R \
+        R-dev \
+        R-doc \
         libxml2-dev \
-        pandoc \
-        git \
-        wget
+        libcurl \
+        curl-dev \
+        linux-headers \
+        zeromq-dev \
+        gcc \
+        g++ \
+        gfortran \
+        libffi-dev \
+        openssl-dev \
+        make \
+        cmake \
+        git
 
-    # Install Python packages
-    pip3 install --upgrade pip
-    pip3 install \
-        jupyter \
-        notebook \
+    # Allow pip to modify system-wide packages
+    export PIP_BREAK_SYSTEM_PACKAGES=1
+    
+    # Install JupyterLab and related Python packages
+    pip3 install --no-cache-dir --upgrade pip
+    pip3 install --no-cache-dir \
+        jupyterlab \
+        nbconvert \
+        papermill \
         numpy \
+        scipy \
         pandas \
         matplotlib \
-        seaborn
+        seaborn \
+        notebook
 
     # Install R packages
-    R -e "install.packages(c('IRkernel', 'ggplot2', 'dplyr', 'tidyr', 'biocManager'), repos='https://cloud.r-project.org/')"
-    R -e "IRkernel::installspec()"
+    Rscript -e "install.packages('IRkernel', repos='http://cran.r-project.org')"
+    Rscript -e "IRkernel::installspec(user = FALSE)"  # Register the kernel in Jupyter
+
+    # Install additional R packages for data science
+    #Rscript -e "install.packages(c('tidyverse', 'devtools', 'caret', 'data.table', 'knitr', 'rmarkdown', 'shiny', 'plotly', 'ggplot2'), repos='http://cran.r-project.org')"
 
     # Clean up
-    apt-get clean
+    apk del build-base
+    rm -rf /var/cache/apk/*
 
 %environment
     # Set environment variables
-    export LC_ALL=C.UTF-8
-    export LANG=C.UTF-8
-    export PYTHONNOUSERSITE="true"
+    export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/lib/R/bin
+    export R_LIBS_USER=/usr/local/lib/R/site-library
+    export PIP_BREAK_SYSTEM_PACKAGES=1
 
 %runscript
-    # This will be executed when the container runs
-    jupyter notebook --ip=0.0.0.0 --no-browser --allow-root
+    # This is the default command when the container is run
+    exec jupyter lab --ip=0.0.0.0 --no-browser --allow-root
 
-%startscript
-    # This will be executed when the container starts as a service
- CharSet="jupyter notebook --ip=0.0.0.0 --no-browser --allow-root"
+%test
+    # Test if JupyterLab is installed correctly
+    jupyter --version
+    R --version
+
 ```
 
 **Explanation:**
