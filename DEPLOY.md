@@ -88,13 +88,18 @@ I hope this guide is as helpful for you as it has been for me! :-)
 
 # Further improvements
 
-In a normal HPC setting the different users do not have sudo right and therfore can not build an Apptainer image.
-[The ImageSmith](git@github.com:stela2502/ImageSmith.git) incorporates the described logics into a Apptainer image which can be used by a not privileged user to build Apptainber images oin an HPC environment.
+In typical HPC environments, users don't have sudo privileges, which means they cannot build Apptainer images directly. [ImageSmith](git@github.com:stela2502/ImageSmith.git) addresses this limitation by embedding the necessary logic into an Apptainer image, allowing unprivileged users to build Apptainer images seamlessly in an HPC environment.
 
-The core of it's functionallity is that the ImgeSmith is able to re-create the image development setting described here using the command 
+The key functionality of ImageSmith is its ability to recreate the complete image development environment with a single command:
 
 ```bash
 create_new_image_builder.sh <path-to>/<new-image-name>
 ```
 
-This Bash script automates the setup of a new project directory for building Apptainer/Singularity images. It creates a directory, copies essential template files (e.g., shell scripts, definition files, and a Makefile), and customizes them based on the provided directory name. The script ensures that no existing directory with the same name exists and provides helpful usage information if the correct arguments aren't supplied.
+This Bash script automates the setup of a new project directory for building Apptainer images. It creates the directory, copies essential template files (such as shell scripts, a definition file, and a Makefile), and customizes them based on the new image name provided by the user.
+
+The script also ensures that:
+- No directory with the same name already exists.
+- It provides usage instructions if the required argument is missing.
+
+By using ImageSmith, non-privileged users can develop and build their own Apptainer images on HPC systems without requiring root access, significantly simplifying image creation in restricted environments.
