@@ -1,4 +1,4 @@
-# Automize the handling of the image
+# Automize the handling of your apptainer image
 
 As you work with this Singularity image, you may need to manage multiple versions over time. Automating the creation, updating, and deployment processes from the beginning can save time and reduce errors.
 

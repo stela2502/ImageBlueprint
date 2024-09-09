@@ -1,4 +1,4 @@
-# Deploying the singularity image on COSMOS
+# Deploying the apptainer image on COSMOS
 
 COSMOS uses the module system to manage and load software, making it an ideal platform for deploying Singularity images. By leveraging the module system, we can share our images more effectively, reducing the workload for everyone involved.
 

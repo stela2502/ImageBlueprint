@@ -129,7 +129,9 @@ With your definition file ready, you can now build the Apptainer image. There ar
 
 ## **Step 4: Modify the Sandbox (Optional)**
 
-If you created a sandbox, you can enter it and make changes:
+If you created a sandbox, you can enter it and make changes.
+This is especially helpful if the automatic build process does not work.
+Always easier to check errors in the correct environment.
 
 ```sh
 sudo apptainer shell --writable Bioinformatics/
@@ -137,7 +139,17 @@ sudo apptainer shell --writable Bioinformatics/
 
 Inside the container, you can install additional packages or modify configurations. Once done, you can exit the container with the `exit` command.
 
-## **Step 5: Running the Container**
+## **Step 5: Build the image**
+
+Once you have finished your sandbox you should create an image from that:
+
+```sh
+sudo apptaiiner build  Bioinformatics.sif Bioinformatics/
+```
+
+This image can not be modified any more.
+
+## **Step 6: Running the Container**
 
 To run the container and start Jupyter Notebook, use:
 
@@ -153,7 +165,7 @@ apptainer run Bioinformatics/
 
 This will start a Jupyter Notebook server, accessible via your web browser. The notebook will be running with both Python and R support, allowing you to interact with your bioinformatics tools directly from the web interface.
 
-## **Step 6: Accessing Jupyter Notebook**
+## **Step 7: Accessing Jupyter Notebook**
 
 When you run the container, Jupyter Notebook will output a URL containing a token, something like:
 
