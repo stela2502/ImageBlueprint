@@ -144,7 +144,7 @@ Inside the container, you can install additional packages or modify configuratio
 Once you have finished your sandbox you should create an image from that:
 
 ```sh
-sudo apptaiiner build  Bioinformatics.sif Bioinformatics/
+sudo apptaiiner build  Bioinformatics_v1.0.sif Bioinformatics/
 ```
 
 This image can not be modified any more.

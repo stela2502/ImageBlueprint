@@ -103,3 +103,7 @@ The script also ensures that:
 - It provides usage instructions if the required argument is missing.
 
 By using ImageSmith, non-privileged users can develop and build their own Apptainer images on HPC systems without requiring root access, significantly simplifying image creation in restricted environments.
+
+# And the Slurm Module - [what does that do?](./SlurmModule.md)
+
+A really short outlook into the Slurm modules.
