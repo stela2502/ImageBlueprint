@@ -83,7 +83,7 @@ The **SERVER_DIR** on the contrary is the location of the image when logged in a
 # Final Steps
 
 Before creating your own images, be sure to update the ``DEPLOY_DIR``, ``MODULE_FILE``and ``SERVER_DIR`` variable in your ``Makefile`` to match your specific project.
-Or - if you do not have direct access to the deploy area - deploy to a local folder to the at least have all files in the correct position and all names and version corrected before you copy the data to the server.
+Or - if you do not have direct access to the deploy area - deploy to a local folder to at least have all files in the correct position and all names and version corrected before you copy the data to the server.
 
 If you’re not already using our shared modules on COSMOS-SENS, you can add the necessary line to your ``~/.bash_profile`` like this:
 
