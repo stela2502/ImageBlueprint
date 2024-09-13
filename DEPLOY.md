@@ -1,6 +1,6 @@
-# Deploying the apptainer image on COSMOS
+# Deploying the apptainer image on COSMOS-SENS
 
-COSMOS uses the module system to manage and load software, making it an ideal platform for deploying Singularity images. By leveraging the module system, we can share our images more effectively, reducing the workload for everyone involved.
+COSMOS-SENS uses the module system to manage and load software, making it an ideal platform for deploying Singularity images. By leveraging the module system, we can share our images more effectively, reducing the workload for everyone involved.
 
 The [generate_module.sh](generate_module.sh) script generates the necessary module file based on the deployment path, version, and tool name:
 
@@ -9,7 +9,7 @@ The [generate_module.sh](generate_module.sh) script generates the necessary modu
 ```
 
 Since all relevant information is centralized in the ``Makefile``, it is best to manage and maintain this information there to ensure consistency and ease of updates.
-Focus on the ``DEPLOY_DIR``, ``MODULE_FILE`` and ``SERVER_DIR`` variables and also mention if ``deploy`` section in the ``Makefile``:
+Focus on the ``DEPLOY_DIR``, ``MODULE_FILE`` and ``SERVER_DIR`` variables and also the ``deploy`` section in the ``Makefile``:
 
 
 ```text
@@ -65,6 +65,12 @@ clean:
 	rm -f $(IMAGE_NAME)
 ```
 
+The **DEPLOY_DIR** is the path the image chould be copied from. This need to be accessible from my development platform.
+The **MODULE_FILE** is the file that represents this modules lua definition. It could be built from the DEPLOY_DIR, but this is more felxible.
+
+The **SERVER_DIR** on the contrary is the location of the image when logged in at the deploy server (here COSMOS-SENS).
+
+
 ## The deploy target in detail:
 
     1. It starts by printing a message saying the image is being deployed.
@@ -77,8 +83,9 @@ clean:
 # Final Steps
 
 Before creating your own images, be sure to update the ``DEPLOY_DIR``, ``MODULE_FILE``and ``SERVER_DIR`` variable in your ``Makefile`` to match your specific project.
+Or - if you do not have direct access to the deploy area - deploy to a local folder to the at least have all files in the correct position and all names and version corrected before you copy the data to the server.
 
-If you’re not already using the shared modules on COSMOS, you can add the necessary line to your ``~/.bash_profile`` like this:
+If you’re not already using our shared modules on COSMOS-SENS, you can add the necessary line to your ``~/.bash_profile`` like this:
 
 ```bash
 echo 'module use /scale/gr01/shared/common/modules' >> ~/.bash_profile
@@ -103,6 +110,27 @@ The script also ensures that:
 - It provides usage instructions if the required argument is missing.
 
 By using ImageSmith, non-privileged users can develop and build their own Apptainer images on HPC systems without requiring root access, significantly simplifying image creation in restricted environments.
+
+The ImageSmith is installed on the open COSMOS and should be run on the compute nodes:
+
+```text
+#!/bin/bash
+#SBATCH --ntasks-per-node 1
+#SBATCH -N 1
+#SBATCH -t 02:00:00
+#SBATCH -A lu2024-7-5
+#SBATCH -J start_Si
+#SBATCH -o start_Si.%j.out
+#SBATCH -e start_Si.%j.err
+
+ml ImageSmith/1.0
+
+exit 0
+```
+
+It is not able to access the /projects folder and therefore you need to build you images in your home directory. Clean up after you got everything as you wanted it ;-)
+
+That ImageSmith is providing a Jupater lab entry point almost as does my Bioinformatics example - ImageSmith does only have a minimum Python and no R installed.
 
 # And the Slurm Module - [what does that do?](./SlurmModule.md)
 
