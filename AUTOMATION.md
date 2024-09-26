@@ -50,7 +50,7 @@ clean:
 
 ## Makefile Options Explained
 
-   1. ``all``:
+`   1. ``all``:
     This is the default target that runs when you simply type make. It sequentially executes the restart, build, and deploy targets. This option is a convenient way to manage the entire process in one go.
 
    2. ``restart``:
@@ -67,7 +67,7 @@ clean:
 
    5. ``clean``:
     This target removes the sandbox directory and the image file. It's useful for cleaning up your workspace if you need to start fresh or if you're done with the current build.
-        Key command: ``rm -rf $(SANDBOX_DIR) $(IMAGE_NAME``
+        Key command: ``rm -rf $(SANDBOX_DIR) $(IMAGE_NAME```
 
 ## Test scripts
 
