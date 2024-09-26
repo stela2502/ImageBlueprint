@@ -35,8 +35,8 @@ From: alpine:latest
     export PIP_BREAK_SYSTEM_PACKAGES=1
     
     # Install JupyterLab and related Python packages
-    pip3 install --no-cache-dir --upgrade pip
-    pip3 install --no-cache-dir \
+    pip install --no-cache-dir --upgrade pip
+    pip install --no-cache-dir \
         jupyterlab \
         nbconvert \
         papermill \
