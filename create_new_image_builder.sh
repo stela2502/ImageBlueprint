@@ -28,6 +28,7 @@ cp $IMAGE_PATH/image/shell.sh "$NEW_DIR/"
 cp $IMAGE_PATH/image/Bioinformatics.def "$NEW_DIR/${NEW_NAME}.def"
 cp $IMAGE_PATH/image/generate_module.sh "$NEW_DIR/"
 cp $IMAGE_PATH/image/Makefile "$NEW_DIR/"
+cp $IMAGE_PATH/image/.gitignore "$NEW_DIR/"
 echo "Copied selected files to '$NEW_DIR'"
 
 # Update Makefile
@@ -56,6 +57,15 @@ if [ -f "$MAKEFILE" ]; then
     echo "Updated 'Bioinformatics' to '${NEW_NAME}' in $MAKEFILE"
 else
     echo "run.sh not found in $NEW_DIR"
+fi
+
+# Update .gitignore
+MAKEFILE="$NEW_DIR/.gitignore"
+if [ -f "$MAKEFILE" ]; then
+    sed -i "s/Bioinformatics/${NEW_NAME}/g" "$MAKEFILE"
+    echo "Updated 'Bioinformatics' to '${NEW_NAME}' in $MAKEFILE"
+else
+    echo ".gitignore not found in $NEW_DIR"
 fi
 
 
