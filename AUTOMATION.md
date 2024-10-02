@@ -50,7 +50,7 @@ clean:
 
 ## Makefile Options Explained
 
-   1. ``all``:
+`   1. ``all``:
     This is the default target that runs when you simply type make. It sequentially executes the restart, build, and deploy targets. This option is a convenient way to manage the entire process in one go.
 
    2. ``restart``:

@@ -16,7 +16,7 @@ SERVER_DIR := /scale/gr01/shared/common/software/$(SANDBOX_DIR)/$(VERSION)
 .PHONY: all restart build deploy clean
 
 # Default target - runs all the steps
-all: restart build deploy
+all: clean restart build deploy
 
 # Restart the sandbox - creates or updates the sandbox
 restart:
@@ -32,6 +32,11 @@ restart:
 build:
 	@echo "Building $(IMAGE_NAME) from $(SANDBOX_DIR)..."
 	sudo apptainer build $(IMAGE_NAME) $(SANDBOX_DIR)
+	@sed -i 's/VERSION=.*/VERSION=${VERSION}/' run.sh
+
+direct:
+	@echo "Building from definition file..."
+	sudo apptainer build $(IMAGE_NAME) $(DEFINITION_FILE)
 	@sed -i 's/VERSION=.*/VERSION=${VERSION}/' run.sh
 
 # Deploy the image by copying it to the deployment directory
