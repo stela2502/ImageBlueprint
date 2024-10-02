@@ -32,6 +32,7 @@ restart:
 build:
 	@echo "Building $(IMAGE_NAME) from $(SANDBOX_DIR)..."
 	sudo apptainer build $(IMAGE_NAME) $(SANDBOX_DIR)
+	@sed -i 's/VERSION=.*/VERSION=${VERSION}/' run.sh
 
 # Deploy the image by copying it to the deployment directory
 deploy:
